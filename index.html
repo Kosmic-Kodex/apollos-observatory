@@ -14,29 +14,40 @@
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: #eef4ff;
-      background: #030711;
+      background: #02040a;
     }
 
-    body::before {
-      content: "";
+    .space {
       position: fixed;
-      inset: -20%;
-      z-index: -3;
+      inset: 0;
+      z-index: -4;
       background:
-        radial-gradient(circle at 20% 25%, rgba(88,166,255,0.30), transparent 26%),
-        radial-gradient(circle at 80% 30%, rgba(180,90,255,0.22), transparent 30%),
-        radial-gradient(circle at 55% 80%, rgba(127,255,212,0.18), transparent 28%),
-        radial-gradient(circle at 35% 70%, rgba(255,90,210,0.10), transparent 24%),
-        linear-gradient(180deg, #050816 0%, #02040a 100%);
-      filter: blur(40px) saturate(145%);
-      animation: nebulaDrift 18s ease-in-out infinite alternate;
+        radial-gradient(circle at 20% 30%, rgba(88,166,255,0.30), transparent 22%),
+        radial-gradient(circle at 80% 20%, rgba(200,90,255,0.22), transparent 26%),
+        radial-gradient(circle at 55% 75%, rgba(127,255,212,0.16), transparent 24%),
+        linear-gradient(180deg, #070b18 0%, #010208 100%);
+      filter: saturate(150%);
     }
 
-    body::after {
-      content: "";
+    .nebula {
+      position: fixed;
+      inset: -30%;
+      z-index: -3;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 25% 35%, rgba(88,166,255,0.20), transparent 32%),
+        radial-gradient(ellipse at 75% 45%, rgba(190,90,255,0.18), transparent 34%),
+        radial-gradient(ellipse at 50% 70%, rgba(127,255,212,0.13), transparent 30%);
+      filter: blur(55px) saturate(160%);
+      animation: nebulaFlow 12s ease-in-out infinite alternate;
+    }
+
+    .stars {
       position: fixed;
       inset: 0;
       z-index: -2;
+      pointer-events: none;
+      opacity: 0.75;
       background-image:
         radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.75), transparent),
         radial-gradient(1px 1px at 35% 12%, rgba(127,255,212,0.55), transparent),
@@ -45,13 +56,25 @@
         radial-gradient(1px 1px at 40% 80%, rgba(88,166,255,0.65), transparent),
         radial-gradient(1px 1px at 62% 44%, rgba(255,255,255,0.55), transparent);
       background-size: 260px 260px;
-      opacity: 0.75;
       animation: starDrift 55s linear infinite;
     }
 
-    @keyframes nebulaDrift {
-      0% { transform: translate3d(-3%, -2%, 0) scale(1.02); }
-      100% { transform: translate3d(3%, 2%, 0) scale(1.08); }
+    .grid-lines {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.10;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to bottom, transparent, black 35%, black 70%, transparent);
+    }
+
+    @keyframes nebulaFlow {
+      0% { transform: translate3d(-4%, -2%, 0) scale(1); }
+      100% { transform: translate3d(5%, 3%, 0) scale(1.08); }
     }
 
     @keyframes starDrift {
@@ -61,61 +84,86 @@
 
     .page {
       min-height: 100vh;
-      padding: 42px 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 32px;
+      display: grid;
+      place-items: center;
     }
 
-    .shell {
+    .dashboard {
       width: 100%;
-      max-width: 1100px;
-      padding: 34px;
-      border-radius: 28px;
-      background: rgba(8, 13, 26, 0.72);
-      border: 1px solid rgba(140,170,255,0.20);
-      box-shadow:
-        0 0 90px rgba(88,166,255,0.13),
-        inset 0 0 40px rgba(255,255,255,0.02);
-      backdrop-filter: blur(18px);
+      max-width: 1180px;
+      display: grid;
+      grid-template-columns: 1.1fr 2fr;
+      gap: 18px;
     }
 
-    .top {
+    .hero,
+    .panel {
+      border: 1px solid rgba(140,170,255,0.18);
+      background: rgba(5, 10, 22, 0.62);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 0 50px rgba(88,166,255,0.08);
+    }
+
+    .hero {
+      border-radius: 28px;
+      padding: 30px;
+      min-height: 520px;
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
-      gap: 22px;
-      align-items: flex-start;
-      margin-bottom: 30px;
     }
 
     .eyebrow {
-      color: #9badc8;
+      color: #a9ffe8;
       font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: 2.5px;
-      margin-bottom: 12px;
+      letter-spacing: 2.8px;
+      margin-bottom: 18px;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(38px, 7vw, 72px);
-      letter-spacing: 5px;
-      line-height: 1;
-      color: white;
-      text-shadow: 0 0 30px rgba(88,166,255,0.28);
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: 0.95;
+      letter-spacing: 4px;
+      color: #fff;
+      text-shadow:
+        0 0 25px rgba(88,166,255,0.35),
+        0 0 70px rgba(180,90,255,0.12);
     }
 
     .tagline {
-      margin-top: 16px;
-      max-width: 650px;
-      color: #b1bdcf;
-      line-height: 1.7;
+      margin-top: 22px;
+      color: #aebad0;
+      line-height: 1.8;
+      max-width: 420px;
+    }
+
+    .timebox {
+      margin-top: 30px;
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .time {
+      font-size: 34px;
+      font-weight: 650;
+      color: #f4f7ff;
+    }
+
+    .date {
+      margin-top: 4px;
+      color: #8b9ab2;
+      font-size: 14px;
     }
 
     .search {
-      margin-top: 22px;
       display: flex;
       gap: 10px;
+      margin-top: 18px;
     }
 
     .search input {
@@ -139,20 +187,18 @@
       font: inherit;
     }
 
-    .grid {
+    .panels {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
     }
 
-    .section {
+    .panel {
+      border-radius: 22px;
       padding: 20px;
-      border-radius: 20px;
-      background: linear-gradient(180deg, rgba(25,35,58,0.72), rgba(10,14,24,0.86));
-      border: 1px solid rgba(255,255,255,0.08);
     }
 
-    .section-title {
+    .panel-title {
       color: #8b9ab2;
       font-size: 12px;
       text-transform: uppercase;
@@ -162,24 +208,25 @@
 
     .links {
       display: grid;
-      gap: 10px;
+      gap: 9px;
     }
 
     .link {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       gap: 12px;
-      padding: 12px 13px;
+      padding: 11px 12px;
       border-radius: 14px;
       color: #dce6f5;
       text-decoration: none;
-      background: rgba(10,14,24,0.55);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.055);
       transition: 0.2s ease;
     }
 
     .link:hover {
-      transform: translateY(-2px);
+      transform: translateX(3px);
       border-color: rgba(127,255,212,0.24);
       background: rgba(14,22,38,0.82);
       text-decoration: none;
@@ -191,32 +238,61 @@
     }
 
     footer {
-      margin-top: 24px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255,255,255,0.07);
+      margin-top: 18px;
       color: #7f8ca0;
       font-size: 13px;
+      text-align: right;
     }
 
-    @media (max-width: 700px) {
-      .shell { padding: 26px; }
-      .top { display: block; }
-      h1 { letter-spacing: 3px; }
-      .search { flex-direction: column; }
-      .search button { padding: 12px; }
+    @media (max-width: 900px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .panels {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 18px;
+      }
+
+      .hero,
+      .panel {
+        padding: 22px;
+      }
+
+      .search {
+        flex-direction: column;
+      }
+
+      .search button {
+        padding: 12px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="page">
-    <main class="shell">
-      <div class="top">
+  <div class="space"></div>
+  <div class="nebula"></div>
+  <div class="stars"></div>
+  <div class="grid-lines"></div>
+
+  <main class="page">
+    <section class="dashboard">
+      <aside class="hero">
         <div>
           <div class="eyebrow">Apollo's Observatory</div>
           <h1>OBSERVATORY</h1>
           <div class="tagline">
-            A quiet launch point for tools, signals, media, learning, and the sites worth returning to.
+            A launch point for tools, media, learning, and the signals worth keeping close.
           </div>
 
           <form class="search" action="https://search.brave.com/search" method="GET">
@@ -224,68 +300,98 @@
             <button type="submit">Search</button>
           </form>
         </div>
-      </div>
 
-      <section class="grid">
-        <div class="section">
-          <div class="section-title">Avaloris</div>
-          <div class="links">
-            <a class="link" href="https://avaloris.net">Avaloris <span>site</span></a>
-            <a class="link" href="https://avaloris.net/admin.html">Admin Panel <span>control</span></a>
-            <a class="link" href="https://avaloris.net/guestbook.html">Guestbook <span>archive</span></a>
+        <div class="timebox">
+          <div class="time" id="time">--:--</div>
+          <div class="date" id="date">Loading local time...</div>
+        </div>
+      </aside>
+
+      <section>
+        <div class="panels">
+          <div class="panel">
+            <div class="panel-title">Avaloris</div>
+            <div class="links">
+              <a class="link" href="https://avaloris.net">Avaloris <span>site</span></a>
+              <a class="link" href="https://avaloris.net/admin.html">Admin Panel <span>control</span></a>
+              <a class="link" href="https://avaloris.net/guestbook.html">Guestbook <span>archive</span></a>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Build</div>
+            <div class="links">
+              <a class="link" href="https://github.com/Kosmic-Kodex">GitHub <span>code</span></a>
+              <a class="link" href="https://dash.cloudflare.com">Cloudflare <span>deploy</span></a>
+              <a class="link" href="https://bitwarden.com">Bitwarden <span>vault</span></a>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Learn HTML / CSS</div>
+            <div class="links">
+              <a class="link" href="https://developer.mozilla.org/en-US/docs/Learn_web_development">MDN Learn Web Dev <span>docs</span></a>
+              <a class="link" href="https://www.theodinproject.com/paths/foundations/courses/foundations">The Odin Project <span>course</span></a>
+              <a class="link" href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics">MDN CSS Basics <span>style</span></a>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Media</div>
+            <div class="links">
+              <a class="link" href="https://www.youtube.com">YouTube <span>video</span></a>
+              <a class="link" href="https://open.spotify.com">Spotify <span>music</span></a>
+              <a class="link" href="https://darknetdiaries.com">Darknet Diaries <span>podcast</span></a>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Open / Privacy</div>
+            <div class="links">
+              <a class="link" href="https://www.thunderbird.net">Thunderbird <span>mail</span></a>
+              <a class="link" href="https://proton.me">Proton <span>privacy</span></a>
+              <a class="link" href="https://alternativeto.net">AlternativeTo <span>tools</span></a>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">News / Reading</div>
+            <div class="links">
+              <a class="link" href="https://www.reuters.com/technology/">Reuters Tech <span>news</span></a>
+              <a class="link" href="https://www.propublica.org">ProPublica <span>deep</span></a>
+              <a class="link" href="https://www.404media.co">404 Media <span>internet</span></a>
+            </div>
           </div>
         </div>
 
-        <div class="section">
-          <div class="section-title">Build</div>
-          <div class="links">
-            <a class="link" href="https://github.com/Kosmic-Kodex">GitHub <span>code</span></a>
-            <a class="link" href="https://dash.cloudflare.com">Cloudflare <span>deploy</span></a>
-            <a class="link" href="https://bitwarden.com">Bitwarden <span>vault</span></a>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">Learn HTML / CSS</div>
-          <div class="links">
-            <a class="link" href="https://developer.mozilla.org/en-US/docs/Learn_web_development">MDN Learn Web Dev <span>best docs</span></a>
-            <a class="link" href="https://www.theodinproject.com/paths/foundations/courses/foundations">The Odin Project <span>course</span></a>
-            <a class="link" href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics">MDN CSS Basics <span>styling</span></a>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">Media</div>
-          <div class="links">
-            <a class="link" href="https://www.youtube.com">YouTube <span>video</span></a>
-            <a class="link" href="https://open.spotify.com">Spotify <span>music</span></a>
-            <a class="link" href="https://darknetdiaries.com">Darknet Diaries <span>podcast</span></a>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">Open / Privacy</div>
-          <div class="links">
-            <a class="link" href="https://www.thunderbird.net">Thunderbird <span>mail</span></a>
-            <a class="link" href="https://proton.me">Proton <span>privacy</span></a>
-            <a class="link" href="https://alternativeto.net">AlternativeTo <span>find tools</span></a>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">News / Reading</div>
-          <div class="links">
-            <a class="link" href="https://www.reuters.com/technology/">Reuters Tech <span>news</span></a>
-            <a class="link" href="https://www.propublica.org">ProPublica <span>investigations</span></a>
-            <a class="link" href="https://www.404media.co">404 Media <span>internet</span></a>
-          </div>
-        </div>
+        <footer>
+          No Google search. No clutter. Just useful signals.
+        </footer>
       </section>
+    </section>
+  </main>
 
-      <footer>
-        No Google search. No clutter. Just signals worth keeping.
-      </footer>
-    </main>
-  </div>
+  <script>
+    function updateClock() {
+      const now = new Date();
+
+      document.getElementById("time").textContent =
+        now.toLocaleTimeString([], {
+          hour: "numeric",
+          minute: "2-digit"
+        });
+
+      document.getElementById("date").textContent =
+        now.toLocaleDateString([], {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+          year: "numeric"
+        });
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
 </body>
 </html>
