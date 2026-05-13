@@ -1,1 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apollo's Observatory</title>
 
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #eef4ff;
+      background: #030711;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      z-index: -3;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(88,166,255,0.30), transparent 26%),
+        radial-gradient(circle at 80% 30%, rgba(180,90,255,0.22), transparent 30%),
+        radial-gradient(circle at 55% 80%, rgba(127,255,212,0.18), transparent 28%),
+        radial-gradient(circle at 35% 70%, rgba(255,90,210,0.10), transparent 24%),
+        linear-gradient(180deg, #050816 0%, #02040a 100%);
+      filter: blur(40px) saturate(145%);
+      animation: nebulaDrift 18s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.75), transparent),
+        radial-gradient(1px 1px at 35% 12%, rgba(127,255,212,0.55), transparent),
+        radial-gradient(1px 1px at 70% 18%, rgba(180,180,255,0.65), transparent),
+        radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,0.55), transparent),
+        radial-gradient(1px 1px at 40% 80%, rgba(88,166,255,0.65), transparent),
+        radial-gradient(1px 1px at 62% 44%, rgba(255,255,255,0.55), transparent);
+      background-size: 260px 260px;
+      opacity: 0.75;
+      animation: starDrift 55s linear infinite;
+    }
+
+    @keyframes nebulaDrift {
+      0% { transform: translate3d(-3%, -2%, 0) scale(1.02); }
+      100% { transform: translate3d(3%, 2%, 0) scale(1.08); }
+    }
+
+    @keyframes starDrift {
+      from { transform: translateY(0); }
+      to { transform: translateY(-260px); }
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 42px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1100px;
+      padding: 34px;
+      border-radius: 28px;
+      background: rgba(8, 13, 26, 0.72);
+      border: 1px solid rgba(140,170,255,0.20);
+      box-shadow:
+        0 0 90px rgba(88,166,255,0.13),
+        inset 0 0 40px rgba(255,255,255,0.02);
+      backdrop-filter: blur(18px);
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 22px;
+      align-items: flex-start;
+      margin-bottom: 30px;
+    }
+
+    .eyebrow {
+      color: #9badc8;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 7vw, 72px);
+      letter-spacing: 5px;
+      line-height: 1;
+      color: white;
+      text-shadow: 0 0 30px rgba(88,166,255,0.28);
+    }
+
+    .tagline {
+      margin-top: 16px;
+      max-width: 650px;
+      color: #b1bdcf;
+      line-height: 1.7;
+    }
+
+    .search {
+      margin-top: 22px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .search input {
+      flex: 1;
+      min-width: 0;
+      padding: 13px 15px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(10,14,24,0.72);
+      color: #eef4ff;
+      font: inherit;
+    }
+
+    .search button {
+      border: 1px solid rgba(127,255,212,0.24);
+      border-radius: 999px;
+      background: rgba(127,255,212,0.07);
+      color: #a9ffe8;
+      padding: 0 18px;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      gap: 18px;
+    }
+
+    .section {
+      padding: 20px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(25,35,58,0.72), rgba(10,14,24,0.86));
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .section-title {
+      color: #8b9ab2;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      margin-bottom: 14px;
+    }
+
+    .links {
+      display: grid;
+      gap: 10px;
+    }
+
+    .link {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 13px;
+      border-radius: 14px;
+      color: #dce6f5;
+      text-decoration: none;
+      background: rgba(10,14,24,0.55);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: 0.2s ease;
+    }
+
+    .link:hover {
+      transform: translateY(-2px);
+      border-color: rgba(127,255,212,0.24);
+      background: rgba(14,22,38,0.82);
+      text-decoration: none;
+    }
+
+    .link span {
+      color: #7f8ca0;
+      font-size: 12px;
+    }
+
+    footer {
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      color: #7f8ca0;
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .shell { padding: 26px; }
+      .top { display: block; }
+      h1 { letter-spacing: 3px; }
+      .search { flex-direction: column; }
+      .search button { padding: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <main class="shell">
+      <div class="top">
+        <div>
+          <div class="eyebrow">Apollo's Observatory</div>
+          <h1>OBSERVATORY</h1>
+          <div class="tagline">
+            A quiet launch point for tools, signals, media, learning, and the sites worth returning to.
+          </div>
+
+          <form class="search" action="https://search.brave.com/search" method="GET">
+            <input name="q" type="search" placeholder="Search with Brave..." autocomplete="off" />
+            <button type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+
+      <section class="grid">
+        <div class="section">
+          <div class="section-title">Avaloris</div>
+          <div class="links">
+            <a class="link" href="https://avaloris.net">Avaloris <span>site</span></a>
+            <a class="link" href="https://avaloris.net/admin.html">Admin Panel <span>control</span></a>
+            <a class="link" href="https://avaloris.net/guestbook.html">Guestbook <span>archive</span></a>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Build</div>
+          <div class="links">
+            <a class="link" href="https://github.com/Kosmic-Kodex">GitHub <span>code</span></a>
+            <a class="link" href="https://dash.cloudflare.com">Cloudflare <span>deploy</span></a>
+            <a class="link" href="https://bitwarden.com">Bitwarden <span>vault</span></a>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Learn HTML / CSS</div>
+          <div class="links">
+            <a class="link" href="https://developer.mozilla.org/en-US/docs/Learn_web_development">MDN Learn Web Dev <span>best docs</span></a>
+            <a class="link" href="https://www.theodinproject.com/paths/foundations/courses/foundations">The Odin Project <span>course</span></a>
+            <a class="link" href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics">MDN CSS Basics <span>styling</span></a>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Media</div>
+          <div class="links">
+            <a class="link" href="https://www.youtube.com">YouTube <span>video</span></a>
+            <a class="link" href="https://open.spotify.com">Spotify <span>music</span></a>
+            <a class="link" href="https://darknetdiaries.com">Darknet Diaries <span>podcast</span></a>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Open / Privacy</div>
+          <div class="links">
+            <a class="link" href="https://www.thunderbird.net">Thunderbird <span>mail</span></a>
+            <a class="link" href="https://proton.me">Proton <span>privacy</span></a>
+            <a class="link" href="https://alternativeto.net">AlternativeTo <span>find tools</span></a>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">News / Reading</div>
+          <div class="links">
+            <a class="link" href="https://www.reuters.com/technology/">Reuters Tech <span>news</span></a>
+            <a class="link" href="https://www.propublica.org">ProPublica <span>investigations</span></a>
+            <a class="link" href="https://www.404media.co">404 Media <span>internet</span></a>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        No Google search. No clutter. Just signals worth keeping.
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
